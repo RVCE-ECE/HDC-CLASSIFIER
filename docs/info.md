@@ -9,12 +9,32 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Explain how your project works
+This project implements an 8-bit Hyperdimensional Computing (HDC) classifier with two class prototypes.
+
+The 8-bit input data is provided through the `ui_in[7:0]` pins. The classifier processes the input and compares it with the stored prototypes to determine the closest class.
+
+The classifier provides the following outputs:
+
+- `uo[5:0]` - 6-bit distance between the input and the selected prototype
+- `uo[6]` - Winner class
+- `uo[7]` - Done signal indicating that classification is complete
+
+The bidirectional pins are used as control inputs:
+
+- `uio[0]` - MODE
+- `uio[1]` - CLASS_SEL
+- `uio[2]` - VALID
+- `uio[3]` - START
+- `uio[7:4]` - Unused
+
+The design operates synchronously with the `clk` signal and uses `rst_n` for active-low reset.
 
 ## How to test
 
-Explain how to use your project
+The project includes a Cocotb-based testbench for functional verification.
 
-## External hardware
+From the project directory, run:
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+```bash
+cd ~/tinytapeout/my_project
+make -C test
