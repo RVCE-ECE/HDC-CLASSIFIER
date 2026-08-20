@@ -1,7 +1,7 @@
 # Tiny Tapeout project information
 project:
   title:        "HDC Classifier"
-  author:       "Shivashankar"
+  author:       "Shivashankar Ravindra Ugar, Tarun S K, Shylashree N, RV College of Engineering"
   discord:      ""
   description:  "8-bit Hyperdimensional Computing classifier with two class prototypes"
   language:     "Verilog"
