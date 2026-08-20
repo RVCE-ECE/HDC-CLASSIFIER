@@ -1,40 +1,52 @@
-<!---
+# HDC Classifier
 
-This file is used to generate your project datasheet. Please fill in the information below and delete any unused
-sections.
-
-You can also include images in this folder and reference them in the markdown. Each image must be less than
-512 kb in size, and the combined size of all images must be less than 1 MB.
--->
+An 8-bit Hyperdimensional Computing (HDC) classifier implemented in Verilog.
+The design compares an input vector with two class prototypes and determines
+the closest matching class using Hamming distance.
 
 ## How it works
 
-This project implements an 8-bit Hyperdimensional Computing (HDC) classifier with two class prototypes.
+The classifier receives an 8-bit input data vector through `ui[7:0]`.
 
-The 8-bit input data is provided through the `ui_in[7:0]` pins. The classifier processes the input and compares it with the stored prototypes to determine the closest class.
+The input vector is compared with two class prototypes. The design calculates
+the Hamming distance between the input data and each prototype. The class with
+the smaller distance is selected as the winner.
 
-The classifier provides the following outputs:
+The calculated distance is provided through `uo[5:0]`, while the winning class
+is indicated by `uo[6]`. The `DONE` signal on `uo[7]` indicates that the
+classification operation is complete.
 
-- `uo[5:0]` - 6-bit distance between the input and the selected prototype
-- `uo[6]` - Winner class
-- `uo[7]` - Done signal indicating that classification is complete
+### Input signals
 
-The bidirectional pins are used as control inputs:
+| Pin      | Signal      | Description                         |
+|----------|-------------|-------------------------------------|
+| `ui[7:0]`| `DATA[7:0]` | 8-bit input data                    |
+| `uio[0]` | `MODE`      | Operating mode                      |
+| `uio[1]` | `CLASS_SEL` | Class selection                     |
+| `uio[2]` | `VALID`     | Indicates valid input               |
+| `uio[3]` | `START`     | Starts the classification operation |
 
-- `uio[0]` - MODE
-- `uio[1]` - CLASS_SEL
-- `uio[2]` - VALID
-- `uio[3]` - START
-- `uio[7:4]` - Unused
+### Output signals
 
-The design operates synchronously with the `clk` signal and uses `rst_n` for active-low reset.
+| Pin       | Signal      | Description                          |
+|-----------|-------------|--------------------------------------|
+| `uo[5:0]` | `DIST[5:0]` | Calculated Hamming distance          |  
+| `uo[6]`   | `WINNER`    | Selected class                       |
+| `uo[7]`   | `DONE`      | Indicates classification is complete |
 
 ## How to test
 
-The project includes a Cocotb-based testbench for functional verification.
+1. Reset the design using `rst_n`.
+2. Apply the 8-bit input data on `ui[7:0]`.
+3. Configure `MODE` and `CLASS_SEL` as required.
+4. Set `VALID` high to indicate valid input data.
+5. Assert `START` to begin the classification operation.
+6. Wait until `DONE` becomes high.
+7. Read the selected class from `WINNER`.
+8. Read the calculated Hamming distance from `DIST[5:0]`.
 
-From the project directory, run:
+## External hardware
 
-```bash
-cd ~/tinytapeout/my_project
-make -C test
+No external hardware is required.
+
+The design uses the standard Tiny Tapeout clock and reset signals.
