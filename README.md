@@ -1,42 +1,42 @@
-![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg) ![](../../workflows/fpga/badge.svg)
+# 8-bit Hyperdimensional Computing (HDC) Classifier
 
-# Tiny Tapeout Verilog Project Template
+**Tiny Tapeout submission, SkyWater 130nm, TTSKY26c shuttle**
 
-- [Read the documentation for project](docs/info.md)
+- [Read the full project documentation](docs/info.md)
+- [Project information](info.yaml)
 
-## What is Tiny Tapeout?
+## What is this?
 
-Tiny Tapeout is an educational project that aims to make it easier and cheaper than ever to get your digital and analog designs manufactured on a real chip.
+This project implements an **8-bit Hyperdimensional Computing (HDC) Classifier** in digital logic. It receives an 8-bit input vector and compares it with two class prototypes to determine the most similar class.
 
-To learn more and get started, visit https://tinytapeout.com.
+The classification is based on **Hamming distance**, which measures the number of differing bits between the input vector and each class prototype. The class with the smaller distance is selected as the winner.
 
-## Set up your Verilog project
+The design provides a compact hardware implementation of an HDC classification operation suitable for ASIC implementation through the Tiny Tapeout flow.
 
-1. Add your Verilog files to the `src` folder.
-2. Edit the [info.yaml](info.yaml) and update information about your project, paying special attention to the `source_files` and `top_module` properties. If you are upgrading an existing Tiny Tapeout project, check out our [online info.yaml migration tool](https://tinytapeout.github.io/tt-yaml-upgrade-tool/).
-3. Edit [docs/info.md](docs/info.md) and add a description of your project.
-4. Adapt the testbench to your design. See [test/README.md](test/README.md) for more information.
+## Design summary
 
-The GitHub action will automatically build the ASIC files using [LibreLane](https://www.zerotoasiccourse.com/terminology/librelane/).
+- **Top module:** `tt_um_hdc_classifier`
+- **Technology:** SkyWater 130nm (SKY130)
+- **Language:** Verilog
+- **Input data:** 8 bits
+- **Number of classes:** 2
+- **Classification method:** Hamming distance
+- **Clock:** 10 MHz
+- **Tile size:** 1×1
+- **Tiny Tapeout shuttle:** TTSKY26c
+- **Physical verification:** GDS generation, precheck, gate-level test and viewer checks completed successfully
 
-## Enable GitHub actions to build the results page
+## How it works
 
-- [Enabling GitHub Pages](https://tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part)
+The classifier receives an 8-bit input vector and compares it with two stored class prototypes.
 
-## Resources
+For each class, the Hamming distance is calculated by determining the number of bit positions that differ between the input vector and the corresponding prototype.
 
-- [FAQ](https://tinytapeout.com/faq/)
-- [Digital design lessons](https://tinytapeout.com/digital_design/)
-- [Learn how semiconductors work](https://tinytapeout.com/siliwiz/)
-- [Join the community](https://tinytapeout.com/discord)
-- [Build your design locally](https://www.tinytapeout.com/guides/local-hardening/)
+The two distances are then compared:
 
-## What next?
+- A smaller Hamming distance indicates a closer match.
+- The class with the smaller distance is selected as the winner.
+- The calculated distance is provided through the `DIST` output.
+- The selected class is indicated by `WINNER`.
+- `DONE` indicates completion of the classification operation.
 
-- [Submit your design to the next shuttle](https://app.tinytapeout.com/).
-- Edit [this README](README.md) and explain your design, how it works, and how to test it.
-- Share your project on your social network of choice:
-  - LinkedIn [#tinytapeout](https://www.linkedin.com/search/results/content/?keywords=%23tinytapeout) [@TinyTapeout](https://www.linkedin.com/company/100708654/)
-  - Mastodon [#tinytapeout](https://chaos.social/tags/tinytapeout) [@matthewvenn](https://chaos.social/@matthewvenn)
-  - X (formerly Twitter) [#tinytapeout](https://twitter.com/hashtag/tinytapeout) [@tinytapeout](https://twitter.com/tinytapeout)
-  - Bluesky [@tinytapeout.com](https://bsky.app/profile/tinytapeout.com)
